@@ -17,7 +17,7 @@
     ],
     "autoload" : {
         "psr-0" : {
-            "" : "src/"
+            "Fibo\\Router\\" : "src/Fibo/Router"
         }
     },
     "require" : {
