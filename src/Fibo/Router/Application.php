@@ -253,7 +253,8 @@ class Application
 
     private function registerMethod($method, $name, $pattern, $to)
     {
-        if (in_array($method, array('get', 'post', 'put', 'delete'))) {
+        $method = trim($method);
+        if (in_array($method, array('get', 'post', 'put', 'delete')) !== false) {
             $this->app->{$method}($pattern, $to);
         }
     }
