@@ -1,125 +1,49 @@
 <?php
 namespace Fibo\Router\Layout;
 
-class View
+use Fibo\Router\ArrayWrapper;
+use Fibo\Router\Layout;
+
+class Builder
 {
 
-    protected $file = '';
+    private $rootDirectory;
 
-    protected $replacements = array();
-
-    protected $enabled = true;
-
-    protected static $partials = array();
-
-    public function __construct($file = null)
+    public function setRootDirectory($directory)
     {
-        if (null !== $file) {
-            $this->setFile($file);
-        }
+        $this->rootDirectory = $directory;
     }
 
-    public function enable()
+    public function build($name, $data)
     {
-        $this->enabled = true;
-        return $this;
-    }
-
-    public function disable()
-    {
-        $this->enabled = false;
-        return $this;
-    }
-
-    public function isEnabled()
-    {
-        return $this->enabled;
-    }
-
-    public function setFile($file)
-    {
-        $this->file = $file;
-        return $this;
-    }
-
-    public function assign($key, $val)
-    {
-        $this->replacements[$key] = $val;
-        return $this;
-    }
-
-    public function assignx($assocArray)
-    {
-        foreach ($assocArray as $k => $v) {
-            $this->assign($k, $v);
-        }
-        return $this;
-    }
-
-    public function resetReplacements()
-    {
-        $this->replacements = array();
-    }
-
-    public function has($k)
-    {
-        return array_key_exists($k, $this->replacements);
-    }
-
-    public function get($k, $default = null)
-    {
-        return $this->has($k) ? $this->replacements[$k] : $default;
-    }
-
-    public function __set($k, $v)
-    {
-        $this->assign($k, $v);
-    }
-
-    public function __get($k)
-    {
-        return $this->get($k);
-    }
-
-    protected function partial($file, $data = null)
-    {
-        $partial = new self($file);
+        $wrapper = new ArrayWrapper($data);
+        $wrapper->wrapArrays(true);
         
-        if (null !== $data) {
-            $partial->assignx($data);
+        $template = $wrapper->tryGet('template', null);
+        $layout = new Layout($this->rootDirectory . DIRECTORY_SEPARATOR . $template);
+        
+        $scripts = $wrapper->tryGet('scripts', array());
+        
+        foreach ($scripts->tryGet('head', array()) as $script) {
+            $layout->addJavascriptFile($script, 'head');
         }
         
-        return $partial->compile();
-    }
-
-    protected function partialLoop($file, $dataSet)
-    {
-        $partial = new self($file);
-        $return = '';
-        foreach ($dataSet as $data) {
-            $partial->assignx($data);
-            $return .= $partial->compile();
-            $partial - $this->resetReplacements();
-        }
-        return $return;
-    }
-
-    public function compile()
-    {
-        if (false == $this->enabled) {
-            return '';
+        foreach ($scripts->tryGet('top', array()) as $script) {
+            $layout->addJavascriptFile($script, 'top');
         }
         
-        ob_start();
-        if (false === include ($this->file)) {
-            ob_get_clean();
-            throw new \RuntimeException('Unable to include the view file ' . $this->file);
+        foreach ($scripts->tryGet('bottom', array()) as $script) {
+            $layout->addJavascriptFile($script, 'bottom');
         }
-        return ob_get_clean();
-    }
-
-    public function display()
-    {
-        echo $this->compile();
+        
+        $stylesheets = $wrapper->tryGet('stylesheets', array());
+        
+        foreach ($stylesheets as $stylesheet) {
+            $stylesheet = new ArrayWrapper($stylesheet);
+            $layout->addStyleSheet('style', $stylesheet->tryGet(0, ''), 
+                $stylesheet->tryGet(2, 'screen'), $stylesheet->tryGet(1, 'css'));
+        }
+        
+        return $layout;
     }
 }
