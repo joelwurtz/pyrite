@@ -1,5 +1,5 @@
 <?php
-namespace Fibo\Router;
+namespace Fibo\Router\Layout;
 
 class View
 {
