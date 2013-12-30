@@ -87,7 +87,7 @@ class Application
 
         $this->routeFile = $filename;
     }
-
+    
     /**
      * Returns the current request object
      * @return \Symfony\Component\HttpFoundation\Request
@@ -106,6 +106,16 @@ class Application
         $this->request = $request;
     }
 
+    public function getErrorPath()
+    {
+        return 'error';
+    }
+    
+    public function isDebug()
+    {
+        return $this->app['debug'] == true;
+    }
+    
     public function getResponseSelector($routeName)
     {
         $routeData = $this->getRouteData($routeName);
@@ -225,24 +235,40 @@ class Application
 
         $to = function () use($app, $container, $routeName, $controllerName)
         {
-            $request = $app->getRequest();
+            try {
+                $request = $app->getRequest();
+    
+                $controller = $container->get($controllerName);
+                $controller->setRequest($request);
+                $controller->setRedirect(new Redirect($app, $request));
+    
+                $responseSelector = $app->getResponseSelector($routeName);
+                $outputName = $responseSelector->getOutputName($request);
+                
+                /* @var $hooks  \Fibo\Router\ControllerHookCollection */
+                $hooks = $app->getControllerHooks($routeName, $outputName);
 
-            $controller = $container->get($controllerName);
-            $controller->setRequest($request);
-
-            $responseSelector = $app->getResponseSelector($routeName);
-            $outputName = $responseSelector->getOutputName($request);
-
-            /* @var $hooks  \Fibo\Router\ControllerHookCollection */
-            $hooks = $app->getControllerHooks($routeName, $outputName);
-
-            $hooks->runBefore($controller, $outputName);
-            $controller->execute();
-            $hooks->runAfter($controller, $outputName);
-
-            $response = $responseSelector->getResponse($app->getRequest());
-
-            return $response->render($controller->getDatas());
+                $hooks->runBefore($controller, $outputName);
+                $controller->execute();
+                $hooks->runAfter($controller, $outputName);
+                
+                $response = $responseSelector->getResponse($app->getRequest());
+                
+                return $response->render($controller->getDatas());
+            }
+            catch (RerouteException $ex) {
+                return $app->redirect($ex->getPath());
+            }
+            catch (RedirectException $ex) {
+                return $app->redirect($ex->getPath());
+            }
+            catch (\Exception $ex) {
+                if (! $app->isDebug()) {
+                    return $app->redirect($app->getErrorPath());
+                }
+                
+                throw $ex;
+            }
         };
 
         $methods = $this->extractValue($route, 'methods');

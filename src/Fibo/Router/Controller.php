@@ -17,10 +17,16 @@ abstract class Controller
      */
     private $request;
     
+    /**
+     * 
+     * @var Redirect
+     */
+    private $redirect;
+    
     private $datas = array();
     
     protected abstract function executeAction();
-
+    
     public function getDatas()
     {
         return $this->datas;
@@ -87,6 +93,16 @@ abstract class Controller
         }
         
         return $default;
+    }
+
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+    }
+    
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
     
     /**

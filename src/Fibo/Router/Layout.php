@@ -9,6 +9,8 @@ class Layout extends View
     private $stylesheets = array();
 
     private $metas = array();
+    
+    private $title = '';
 
     public function __construct($filename = null)
     {
@@ -88,5 +90,10 @@ class Layout extends View
         }
 
         return $buffer;
+    }
+    
+    protected function renderTitle()
+    {
+        return $this->title;
     }
 }
