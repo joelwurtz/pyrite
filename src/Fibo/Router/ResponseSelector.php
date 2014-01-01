@@ -1,44 +1,46 @@
 <?php
+
 namespace Fibo\Router;
 
 use Fibo\Router\Response\Html;
 use Fibo\Router\Response\Json;
 use Symfony\Component\HttpFoundation\Request;
 use Fibo\Router\Layout\Selector;
+use Fibo\Router\Response\Xml;
 
 class ResponseSelector
 {
 
     private $rootDirectory = '';
-    
+
     private $outputs = array();
-    
+
     private $layouts = array();
-    
+
     private $scripts = array();
-    
+
     private $layoutSelector;
-    
+
     public function getRootDirectory()
     {
         return $this->rootDirectory;
     }
-    
+
     public function setRootDirectory($rootDirectory)
     {
         $this->rootDirectory = $rootDirectory;
     }
-    
+
     public function getLayoutSelector()
     {
         return $this->layoutSelector;
     }
-    
+
     public function setLayoutSelector(Selector $selector)
     {
         $this->layoutSelector = $selector;
     }
-    
+
     public function getResponse(Request $request)
     {
         $response = null;
@@ -67,7 +69,7 @@ class ResponseSelector
                     foreach ($scripts as $script) {
                         $layout->addJavascriptFile($script, $section);
                     }
-                } 
+                }
             }
             
             $response->setLayout($layout);
@@ -78,7 +80,7 @@ class ResponseSelector
         
         return $response;
     }
-    
+
     public function getOutputName(Request $request)
     {
         $acceptables = $request->getAcceptableContentTypes();
@@ -87,20 +89,19 @@ class ResponseSelector
             if ($this->isAcceptable($acceptable, 'text/html') && array_key_exists('html', $this->outputs)) {
                 return 'html';
             }
-        
+            
             if ($this->isAcceptable($acceptable, 'application/json') && array_key_exists('json', $this->outputs)) {
                 return 'json';
             }
-        
-            if (($this->isAcceptable($acceptable, 'text/xml') || $this->isAcceptable($acceptable, 'application/xml'))  
-                && array_key_exists('xml', $this->outputs)) {
+            
+            if (($this->isAcceptable($acceptable, 'text/xml') || $this->isAcceptable($acceptable, 'application/xml')) && array_key_exists('xml', $this->outputs)) {
                 return 'xml';
             }
         }
         
         throw new \RuntimeException('Unable to find a compatible output.');
     }
-    
+
     private function isAcceptable($requested, $match)
     {
         if ($requested = '*/*') {
@@ -109,7 +110,7 @@ class ResponseSelector
         
         return ($requested == $tested);
     }
-    
+
     public function addOutput($name, $layout, $view, $scripts)
     {
         $this->layouts[$name] = $layout;

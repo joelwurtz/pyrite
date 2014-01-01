@@ -106,16 +106,29 @@ class Application
         $this->request = $request;
     }
 
+    /**
+     * Returns the default error path.
+     * @return string
+     */
     public function getErrorPath()
     {
         return 'error';
     }
     
+    /**
+     * Returns a boolean stating whether the application is in debug mode.
+     * @return boolean
+     */
     public function isDebug()
     {
         return $this->app['debug'] == true;
     }
     
+    /**
+     * Returns the appropriate response selector for a given route.
+     * @param string $routeName
+     * @return \Fibo\Router\ResponseSelector
+     */
     public function getResponseSelector($routeName)
     {
         $routeData = $this->getRouteData($routeName);
@@ -135,6 +148,10 @@ class Application
         return $selector;
     }
 
+    /**
+     * Returns a layout selector instance.
+     * @return \Fibo\Router\Layout\Selector
+     */
     public function getLayoutSelector()
     {
         $this->loadData();
@@ -254,12 +271,12 @@ class Application
                 
                 $response = $responseSelector->getResponse($app->getRequest());
                 
-                return $response->render($controller->getDatas());
+                return $response->render($controller->getData());
             }
-            catch (RerouteException $ex) {
+            catch (\Fibo\Router\RerouteException $ex) {
                 return $app->redirect($ex->getPath());
             }
-            catch (RedirectException $ex) {
+            catch (\Fibo\Router\RedirectException $ex) {
                 return $app->redirect($ex->getPath());
             }
             catch (\Exception $ex) {

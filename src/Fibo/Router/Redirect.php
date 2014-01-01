@@ -3,6 +3,7 @@
 namespace Fibo\Router;
 
 use Symfony\Component\HttpFoundation\Request;
+
 class Redirect
 {
 
@@ -26,11 +27,11 @@ class Redirect
 
     public function redirect($path)
     {
-        throw new RedirectException($path);
+        throw new \Fibo\Router\RerouteException($path);
     }
 
     public function route($path)
     {
-        throw new RerouteException($path);
+        throw new \Fibo\Router\RerouteException($path);
     }
 }
