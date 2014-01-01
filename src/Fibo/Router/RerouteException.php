@@ -2,19 +2,21 @@
 
 namespace Fibo\Router;
 
-class RerouteException extends \Exception
+class RerouteException extends RedirectException
 {
     
-    private $path;
+    private $params;
     
-    public function __construct($path)
+    public function __construct($path, array $params)
     {
-        $this->path = $path;
+        parent::__construct($path);
+        
+        $this->params = $params;
     }
     
-    public function getPath()
+    public function getParams()
     {
-        return $this->path;
+        return $this->params;
     }
     
 }

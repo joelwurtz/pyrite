@@ -23,9 +23,11 @@ abstract class Controller
     
     /**
      * 
-     * @var unknown
+     * @var mixed[]
      */
     private $data = array();
+    
+    private $unsafeData = array();
     
     protected abstract function executeAction();
     
@@ -42,6 +44,11 @@ abstract class Controller
     public function setData($key, $value)
     {
         $this->data[$key] = $value;
+    }
+    
+    public function setSafeData($key, $value)
+    {
+        $this->safeData[$key] = $value;
     }
     
     /**

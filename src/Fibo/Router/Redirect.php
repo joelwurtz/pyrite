@@ -25,13 +25,13 @@ class Redirect
         $this->redirect = $redirect;
     }
 
-    public function redirect($path)
+    public function redirect($path, array $params = array())
     {
-        throw new \Fibo\Router\RerouteException($path);
+        throw new \Fibo\Router\RerouteException($path, $params);
     }
 
-    public function route($path)
+    public function route($path, array $params = array())
     {
-        throw new \Fibo\Router\RerouteException($path);
+        throw new \Fibo\Router\RerouteException($path, $params);
     }
 }

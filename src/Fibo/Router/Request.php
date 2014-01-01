@@ -9,6 +9,7 @@ use Fibo\Router\Validation\ParameterValidationException;
 use Fibo\Router\Validation\Parameter\Int;
 use Fibo\Router\Validation\Parameter\Email;
 use Fibo\Router\Validation\Parameter\UInt;
+use Fibo\Router\Validation\Parameter\NotNullOrEmpty;
 class Request
 {
     
@@ -27,6 +28,7 @@ class Request
         $this->addValidator('int', new Int());
         $this->addValidator('uint', new UInt());
         $this->addValidator('email', new Email());
+        $this->addValidator('required', new NotNullOrEmpty());
     }
     
     public function addValidator($validationKey, ParameterValidator $validator)
@@ -70,6 +72,11 @@ class Request
         }
     
         return $default;
+    }
+    
+    public function isPost()
+    {
+        return $this->request->isMethod('POST');
     }
     
     public function validate(Validator $validator)

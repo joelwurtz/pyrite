@@ -4,6 +4,7 @@ namespace Fibo\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Fibo\Router\Layout\Selector;
 use Fibo\Router\Layout\Builder;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Global application object providing dependency injection for controllers
  * @author thibaud
@@ -187,7 +188,7 @@ class Application
 
         return $hooks;
     }
-
+    
     /**
      * Registers all routes and runs the application.
      */
@@ -195,10 +196,17 @@ class Application
     {
         $this->registerRoutes();
         $this->setRequest(Request::createFromGlobals());
-
+        
         $this->app->run($this->getRequest());
     }
 
+    public function reroute($path, array $params)
+    {
+        $subRequest = Request::create($path, 'GET', $params, $_COOKIE, $_FILES, $_SERVER);
+        
+        return $this->app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+    }
+    
     /**
      * Delegates all calls to underlying Silex application object
      *
@@ -274,7 +282,7 @@ class Application
                 return $response->render($controller->getData());
             }
             catch (\Fibo\Router\RerouteException $ex) {
-                return $app->redirect($ex->getPath());
+                return $app->reroute($ex->getPath(), $ex->getParams());
             }
             catch (\Fibo\Router\RedirectException $ex) {
                 return $app->redirect($ex->getPath());

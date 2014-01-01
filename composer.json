@@ -1,26 +1,24 @@
 {
-    "name": "cryptovein/php-router",
-    "description": "PHP MVC Router",
-    "version": "1.0.0",
-    "type": "library",
-    "homepage" : "http://cryptove.in",
-    "keywords": [],
-    "time": "2013-11-01",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Thibaud Fabre",
-            "email": "nrb.miners@gmail.com",
-            "homepage": "http://screwme.imfamo.us",
-            "role": "Developer"
-        }
-    ],
-    "autoload" : {
-        "psr-0" : {
-            "Fibo\\Router\\" : "src/"
-        }
-    },
-    "require" : {
-        
-    }
+	"name" : "cryptovein/php-router",
+	"description" : "PHP MVC Router",
+	"version" : "1.0.0",
+	"type" : "library",
+	"homepage" : "http://cryptove.in",
+	"time" : "2013-11-01",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Thibaud Fabre",
+			"email" : "nrb.miners@gmail.com",
+			"homepage" : "http://screwme.imfamo.us",
+			"role" : "Developer"
+		}
+	],
+	"autoload" : {
+		"psr-0" : {
+			"Fibo\\Router\\" : "src/"
+		}
+	},
+	"require" : {
+		"ezyang/htmlpurifier" : "4.6.0"
+	}
 }
