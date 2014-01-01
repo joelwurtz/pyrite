@@ -125,7 +125,7 @@ class Application
      */
     public function getErrorPath()
     {
-        return 'error';
+        return '/error';
     }
     
     /**
@@ -214,9 +214,13 @@ class Application
 
     public function reroute($path, array $params)
     {
-        $subRequest = Request::create($path, 'GET', $params, $_COOKIE, $_FILES, $_SERVER);
+        $subRequest = Request::create($path, $this->request->getMethod(), $params, $_COOKIE, $_FILES, $_SERVER);
         
-        return $this->app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        if ($session = $this->request->getSession()) {
+            $subRequest->setSession($session);
+        }
+
+        return $this->app->handle($subRequest, HttpKernelInterface::SUB_REQUEST, false);
     }
 
     public function redirect($path)
@@ -294,7 +298,7 @@ class Application
             }
             catch (\Exception $ex) {
                 if (! $app->isDebug()) {
-                    return $app->redirect($app->getErrorPath());
+                    return $app->reroute($app->getErrorPath(), array());
                 }
                 
                 throw $ex;
