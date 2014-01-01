@@ -2,8 +2,6 @@
 
 namespace Fibo\Router;
 
-use Symfony\Component\HttpFoundation\Request;
-
 class Redirect
 {
 

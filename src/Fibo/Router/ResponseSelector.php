@@ -4,7 +4,6 @@ namespace Fibo\Router;
 
 use Fibo\Router\Response\Html;
 use Fibo\Router\Response\Json;
-use Symfony\Component\HttpFoundation\Request;
 use Fibo\Router\Layout\Selector;
 use Fibo\Router\Response\Xml;
 

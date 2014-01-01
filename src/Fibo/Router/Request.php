@@ -21,6 +21,10 @@ class Request
      */
     private $validators = array();
     
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
     public function __construct(\Symfony\Component\HttpFoundation\Request $request)
     {
         $this->request = $request;
@@ -31,6 +35,16 @@ class Request
         $this->addValidator('required', new NotNullOrEmpty());
     }
     
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->request, $name), $args);
+    }
+    
+    /**
+     * Adds a validation rule.
+     * @param string $validationKey Name of the rule
+     * @param ParameterValidator $validator Rule validator.
+     */
     public function addValidator($validationKey, ParameterValidator $validator)
     {
         $this->validators[$validationKey] = $validator;
@@ -53,7 +67,7 @@ class Request
      * Gets a param identified by its name (looking in post, get, and url in that order)
      * and returns its value or the default value if the param does not exist in the request.
      * @param string $name Name of the parameter.
-     * @param mixed $default [opt] Default value to return if the parameter is not found.
+     * @param mixed $default OPTIONAL Default value to return if the parameter is not found.
      * @return mixed|null
      */
     public function getParam($name, $default = null)
@@ -74,16 +88,31 @@ class Request
         return $default;
     }
     
+    /**
+     * Checks whether the current request's method is a POST method.
+     * @return boolean
+     */
     public function isPost()
     {
         return $this->request->isMethod('POST');
     }
     
+    /**
+     * Validates current request using a custom validator.
+     * @param Validator $validator
+     */
     public function validate(Validator $validator)
     {
         $validator->validate($this);
     }
     
+    /**
+     * Validates a parameter against a validation rule.
+     * @param string $name
+     * @param string $validationKey
+     * @throws \InvalidArgumentException
+     * @throws ParameterValidationException
+     */
     public function validateParam($name, $validationKey)
     {
         if (! isset($this->validators[$validationKey])) {

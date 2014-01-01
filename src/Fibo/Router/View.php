@@ -1,9 +1,11 @@
 <?php
+
 namespace Fibo\Router;
 
 class View
 {
-
+    protected $purifier;
+    
     protected $file = '';
 
     protected $replacements = array();
@@ -17,6 +19,9 @@ class View
         if (null !== $file) {
             $this->setFile($file);
         }
+        
+        $config = \HTMLPurifier_Config::createDefault();
+        $this->purifier = new \HTMLPurifier($config);
     }
 
     public function enable()
@@ -61,11 +66,16 @@ class View
         $this->replacements = array();
     }
 
+    public function escape($value)
+    {
+        return $this->purifier->purify($value);
+    }
+    
     public function has($k)
     {
         return array_key_exists($k, $this->replacements);
     }
-
+    
     public function get($k, $default = null)
     {
         return $this->has($k) ? $this->replacements[$k] : $default;

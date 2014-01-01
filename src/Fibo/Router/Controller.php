@@ -27,8 +27,6 @@ abstract class Controller
      */
     private $data = array();
     
-    private $unsafeData = array();
-    
     protected abstract function executeAction();
     
     public function getData()
@@ -44,11 +42,6 @@ abstract class Controller
     public function setData($key, $value)
     {
         $this->data[$key] = $value;
-    }
-    
-    public function setSafeData($key, $value)
-    {
-        $this->safeData[$key] = $value;
     }
     
     /**

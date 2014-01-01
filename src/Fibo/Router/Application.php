@@ -76,6 +76,18 @@ class Application
     }
 
     /**
+     * Delegates all calls to underlying Silex application object
+     *
+     * @param string $name
+     * @param array $args
+     * @return mixed
+     */
+    public function __call($name, $args)
+    {
+        return call_user_func_array(array($this->app, $name), $args);
+    }
+    
+    /**
      * Sets the file name that contains the route definitions.
      * @param string $filename
      * @throws \RuntimeException when $filename does not exist.
@@ -206,18 +218,6 @@ class Application
         
         return $this->app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
-    
-    /**
-     * Delegates all calls to underlying Silex application object
-     *
-     * @param string $name
-     * @param array $args
-     * @return mixed
-     */
-    public function __call($name, $args)
-    {
-        return call_user_func_array(array($this->app, $name), $args);
-    }
 
     private function getRouteData($routeName)
     {
@@ -261,7 +261,7 @@ class Application
         $to = function () use($app, $container, $routeName, $controllerName)
         {
             try {
-                $request = $app->getRequest();
+                $request = new \Fibo\Router\Request($app->getRequest());
     
                 $controller = $container->get($controllerName);
                 $controller->setRequest($request);
@@ -277,7 +277,7 @@ class Application
                 $controller->execute();
                 $hooks->runAfter($controller, $outputName);
                 
-                $response = $responseSelector->getResponse($app->getRequest());
+                $response = $responseSelector->getResponse($request);
                 
                 return $response->render($controller->getData());
             }
