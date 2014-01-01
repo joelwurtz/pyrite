@@ -17,7 +17,7 @@ class NotNullOrEmpty implements ParameterValidator
             return false;
         }
         
-        if (strlen(trim($str)) == 0) {
+        if (strlen(trim($value)) == 0) {
             return false;
         }
         

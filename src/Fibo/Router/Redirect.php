@@ -23,9 +23,9 @@ class Redirect
         $this->redirect = $redirect;
     }
 
-    public function redirect($path, array $params = array())
+    public function redirect($path)
     {
-        throw new \Fibo\Router\RerouteException($path, $params);
+        throw new \Fibo\Router\RedirectException($path);
     }
 
     public function route($path, array $params = array())

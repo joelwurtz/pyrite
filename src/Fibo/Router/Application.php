@@ -219,6 +219,11 @@ class Application
         return $this->app->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
+    public function redirect($path)
+    {
+        return $this->app->redirect($path);
+    }
+    
     private function getRouteData($routeName)
     {
         if (! array_key_exists($routeName, $this->routeData)) {
