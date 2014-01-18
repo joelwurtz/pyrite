@@ -298,6 +298,9 @@ class Application
             }
             catch (\Exception $ex) {
                 if (! $app->isDebug()) {
+                    
+                    error_log($ex->getMessage());
+                    
                     return $app->reroute($app->getErrorPath(), array());
                 }
                 
