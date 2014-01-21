@@ -86,7 +86,7 @@ class Application
     {
         return call_user_func_array(array($this->app, $name), $args);
     }
-    
+
     /**
      * Sets the file name that contains the route definitions.
      * @param string $filename
@@ -100,7 +100,7 @@ class Application
 
         $this->routeFile = $filename;
     }
-    
+
     /**
      * Returns the current request object
      * @return \Symfony\Component\HttpFoundation\Request
@@ -127,7 +127,7 @@ class Application
     {
         return '/error';
     }
-    
+
     /**
      * Returns a boolean stating whether the application is in debug mode.
      * @return boolean
@@ -136,7 +136,7 @@ class Application
     {
         return $this->app['debug'] == true;
     }
-    
+
     /**
      * Returns the appropriate response selector for a given route.
      * @param string $routeName
@@ -200,7 +200,7 @@ class Application
 
         return $hooks;
     }
-    
+
     /**
      * Registers all routes and runs the application.
      */
@@ -208,14 +208,14 @@ class Application
     {
         $this->registerRoutes();
         $this->setRequest(Request::createFromGlobals());
-        
+
         $this->app->run($this->getRequest());
     }
 
     public function reroute($path, array $params)
     {
         $subRequest = Request::create($path, $this->request->getMethod(), $params, $_COOKIE, $_FILES, $_SERVER);
-        
+
         if ($session = $this->request->getSession()) {
             $subRequest->setSession($session);
         }
@@ -227,7 +227,7 @@ class Application
     {
         return $this->app->redirect($path);
     }
-    
+
     private function getRouteData($routeName)
     {
         if (! array_key_exists($routeName, $this->routeData)) {
@@ -244,8 +244,29 @@ class Application
                 throw new \RuntimeException('Route file is not set.');
             }
 
-            $this->data = $this->yaml->parse($this->routeFile);
+            $this->data = $this->loadDataRecursive($this->routeFile);
         }
+    }
+
+    private function loadDataRecursive($filePath)
+    {
+        $yml = array();
+        $dirname = dirname($filePath);
+        $res = $this->yaml->parse($filePath);
+
+        foreach($res as $key => $value) {
+            if ($key == 'include') {
+                foreach($value as $file) {
+                    $subYml = $this->loadDataRecursive($dirname . '/' . $file);
+                    $yml = array_merge_recursive($yml, $subYml);
+                }
+            }
+            else {
+                $yml = array_merge_recursive($yml, array($key => $res[$key]));
+            }
+        }
+
+        return $yml;
     }
 
     private function registerRoutes()
@@ -271,23 +292,23 @@ class Application
         {
             try {
                 $request = new \Pyrite\Stack\Request($app->getRequest());
-    
+
                 $controller = $container->get($controllerName);
                 $controller->setRequest($request);
                 $controller->setRedirect(new Redirect($app, $request));
-    
+
                 $responseSelector = $app->getResponseSelector($routeName);
                 $outputName = $responseSelector->getOutputName($request);
-                
+
                 /* @var $hooks  \Pyrite\Stack\ControllerHookCollection */
                 $hooks = $app->getControllerHooks($routeName, $outputName);
 
                 $hooks->runBefore($controller, $outputName);
                 $controller->execute();
                 $hooks->runAfter($controller, $outputName);
-                
+
                 $response = $responseSelector->getResponse($request);
-                
+
                 return $response->render($controller->getData());
             }
             catch (\Pyrite\Stack\RerouteException $ex) {
@@ -298,12 +319,12 @@ class Application
             }
             catch (\Exception $ex) {
                 if (! $app->isDebug()) {
-                    
+
                     error_log($ex->getMessage());
-                    
+
                     return $app->reroute($app->getErrorPath(), array());
                 }
-                
+
                 throw $ex;
             }
         };
