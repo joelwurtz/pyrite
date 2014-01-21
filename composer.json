@@ -15,13 +15,14 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"Pyrite\\Stack" : "src/"
+			"Pyrite\\Stack\\" : "src/"
 		}
 	},
 	"require" : {
 		"ezyang/htmlpurifier" : "4.6.0",
 		"oliviermadre/dic-it" : "dev-master",
-		"silex/silex" : "1.1.2"
+		"silex/silex" : "1.1.2",
+		"psr/log" : "1.0.0"
 	},
 	"minimum-stability" : "dev"
 }
