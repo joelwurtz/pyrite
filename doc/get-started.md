@@ -28,7 +28,7 @@ if ($silex['debug']) {
     });
 }
 
-$app = new Fibo\Router\Application($silex, $container, $yaml);
+$app = new Pyrite\Stack\Application($silex, $container, $yaml);
 
 $app->setRouteFile($routes);
 $app->run();
