@@ -1,9 +1,9 @@
 <?php
 
-namespace Fibo\Router\Response;
+namespace Pyrite\Stack\Response;
 
-use Fibo\Router\Response;
-use Fibo\Router\Layout;
+use Pyrite\Stack\Response;
+use Pyrite\Stack\Layout;
 
 class Xml implements Response
 {

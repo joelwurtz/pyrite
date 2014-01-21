@@ -1,8 +1,8 @@
 <?php
-namespace Fibo\Router\Layout;
+namespace Pyrite\Stack\Layout;
 
-use Fibo\Router\ArrayWrapper;
-use Fibo\Router\Layout;
+use Pyrite\Stack\ArrayWrapper;
+use Pyrite\Stack\Layout;
 
 class Builder
 {

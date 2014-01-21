@@ -1,9 +1,9 @@
 <?php
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
 use Symfony\Component\HttpFoundation\Request;
-use Fibo\Router\Layout\Selector;
-use Fibo\Router\Layout\Builder;
+use Pyrite\Stack\Layout\Selector;
+use Pyrite\Stack\Layout\Builder;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Global application object providing dependency injection for controllers
@@ -140,7 +140,7 @@ class Application
     /**
      * Returns the appropriate response selector for a given route.
      * @param string $routeName
-     * @return \Fibo\Router\ResponseSelector
+     * @return \Pyrite\Stack\ResponseSelector
      */
     public function getResponseSelector($routeName)
     {
@@ -163,7 +163,7 @@ class Application
 
     /**
      * Returns a layout selector instance.
-     * @return \Fibo\Router\Layout\Selector
+     * @return \Pyrite\Stack\Layout\Selector
      */
     public function getLayoutSelector()
     {
@@ -270,7 +270,7 @@ class Application
         $to = function () use($app, $container, $routeName, $controllerName)
         {
             try {
-                $request = new \Fibo\Router\Request($app->getRequest());
+                $request = new \Pyrite\Stack\Request($app->getRequest());
     
                 $controller = $container->get($controllerName);
                 $controller->setRequest($request);
@@ -279,7 +279,7 @@ class Application
                 $responseSelector = $app->getResponseSelector($routeName);
                 $outputName = $responseSelector->getOutputName($request);
                 
-                /* @var $hooks  \Fibo\Router\ControllerHookCollection */
+                /* @var $hooks  \Pyrite\Stack\ControllerHookCollection */
                 $hooks = $app->getControllerHooks($routeName, $outputName);
 
                 $hooks->runBefore($controller, $outputName);
@@ -290,10 +290,10 @@ class Application
                 
                 return $response->render($controller->getData());
             }
-            catch (\Fibo\Router\RerouteException $ex) {
+            catch (\Pyrite\Stack\RerouteException $ex) {
                 return $app->reroute($ex->getPath(), $ex->getParams());
             }
-            catch (\Fibo\Router\RedirectException $ex) {
+            catch (\Pyrite\Stack\RedirectException $ex) {
                 return $app->redirect($ex->getPath());
             }
             catch (\Exception $ex) {

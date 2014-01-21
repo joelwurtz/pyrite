@@ -1,11 +1,11 @@
 <?php
 
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
-use Fibo\Router\Response\Html;
-use Fibo\Router\Response\Json;
-use Fibo\Router\Layout\Selector;
-use Fibo\Router\Response\Xml;
+use Pyrite\Stack\Response\Html;
+use Pyrite\Stack\Response\Json;
+use Pyrite\Stack\Layout\Selector;
+use Pyrite\Stack\Response\Xml;
 
 class ResponseSelector
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
 /**
  * Base controller for all application controllers.
@@ -46,7 +46,7 @@ abstract class Controller
     
     /**
      * Returns the current request object.
-     * @return \Fibo\Router\Request
+     * @return \Pyrite\Stack\Request
      */
     public function getRequest()
     {
@@ -64,7 +64,7 @@ abstract class Controller
     
     /**
      * Gets a redirect object instance.
-     * @return \Fibo\Router\Redirect
+     * @return \Pyrite\Stack\Redirect
      */
     public function getRedirect()
     {
@@ -73,7 +73,7 @@ abstract class Controller
 
     /**
      * Sets the redirection object instance.
-     * @param \Fibo\Router\Redirect $redirect
+     * @param \Pyrite\Stack\Redirect $redirect
      */
     public function setRedirect($redirect)
     {

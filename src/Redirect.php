@@ -1,6 +1,6 @@
 <?php
 
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
 class Redirect
 {
@@ -25,11 +25,11 @@ class Redirect
 
     public function redirect($path)
     {
-        throw new \Fibo\Router\RedirectException($path);
+        throw new \Pyrite\Stack\RedirectException($path);
     }
 
     public function route($path, array $params = array())
     {
-        throw new \Fibo\Router\RerouteException($path, $params);
+        throw new \Pyrite\Stack\RerouteException($path, $params);
     }
 }

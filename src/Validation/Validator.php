@@ -1,8 +1,8 @@
 <?php
 
-namespace Fibo\Router\Validation;
+namespace Pyrite\Stack\Validation;
 
-use Fibo\Router\Request;
+use Pyrite\Stack\Request;
 
 interface Validator
 {

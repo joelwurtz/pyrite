@@ -1,6 +1,6 @@
 <?php
 
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
 class RerouteException extends RedirectException
 {

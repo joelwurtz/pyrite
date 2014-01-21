@@ -1,24 +1,26 @@
 {
-	"name" : "cryptovein/php-router",
-	"description" : "PHP MVC Router",
+	"name" : "pyrite/pyrite",
+	"description" : "PHP Initializer for Silex",
 	"version" : "1.0.0",
 	"type" : "library",
-	"homepage" : "http://cryptove.in",
+	"homepage" : "http://pyri.te",
 	"time" : "2013-11-01",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Thibaud Fabre",
-			"email" : "nrb.miners@gmail.com",
+			"email" : "thibaud@evaneos.com",
 			"homepage" : "http://screwme.imfamo.us",
 			"role" : "Developer"
 		}
 	],
 	"autoload" : {
-		"psr-0" : {
-			"Fibo\\Router\\" : "src/"
+		"psr-4" : {
+			"Pyrite\\Stack" : "src/"
 		}
 	},
 	"require" : {
-		"ezyang/htmlpurifier" : "4.6.0"
-	}
+		"ezyang/htmlpurifier" : "4.6.0",
+		"oliviermadre/dic-it" : "dev-master"
+	},
+	"minimum-stability" : "dev"
 }

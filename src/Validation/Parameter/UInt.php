@@ -1,8 +1,8 @@
 <?php
 
-namespace Fibo\Router\Validation\Parameter;
+namespace Pyrite\Stack\Validation\Parameter;
 
-use Fibo\Router\Validation\ParameterValidator;
+use Pyrite\Stack\Validation\ParameterValidator;
 
 class UInt extends Int
 {

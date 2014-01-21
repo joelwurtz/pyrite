@@ -1,6 +1,6 @@
 <?php
 
-namespace Fibo\Router\Validation;
+namespace Pyrite\Stack\Validation;
 
 class ValidationException extends \RuntimeException
 {

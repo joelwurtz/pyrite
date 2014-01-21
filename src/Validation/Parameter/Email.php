@@ -1,13 +1,13 @@
 <?php
 
-namespace Fibo\Router\Validation\Parameter;
+namespace Pyrite\Stack\Validation\Parameter;
 
-use Fibo\Router\Validation\ParameterValidator;
+use Pyrite\Stack\Validation\ParameterValidator;
 
 class Email implements ParameterValidator
 {
     /**
-     * (non-PHPdoc) @see \Fibo\Router\Validation\ParameterValidator::validate()
+     * (non-PHPdoc) @see \Pyrite\Stack\Validation\ParameterValidator::validate()
      */
     public function validate($value)
     {

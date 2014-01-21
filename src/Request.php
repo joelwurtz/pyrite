@@ -1,15 +1,15 @@
 <?php
 
-namespace Fibo\Router;
+namespace Pyrite\Stack;
 
-use Fibo\Router\Validation\Validator;
-use Fibo\Router\Validation\ParameterValidator;
-use Fibo\Router\Validation\ValidationException;
-use Fibo\Router\Validation\ParameterValidationException;
-use Fibo\Router\Validation\Parameter\Int;
-use Fibo\Router\Validation\Parameter\Email;
-use Fibo\Router\Validation\Parameter\UInt;
-use Fibo\Router\Validation\Parameter\NotNullOrEmpty;
+use Pyrite\Stack\Validation\Validator;
+use Pyrite\Stack\Validation\ParameterValidator;
+use Pyrite\Stack\Validation\ValidationException;
+use Pyrite\Stack\Validation\ParameterValidationException;
+use Pyrite\Stack\Validation\Parameter\Int;
+use Pyrite\Stack\Validation\Parameter\Email;
+use Pyrite\Stack\Validation\Parameter\UInt;
+use Pyrite\Stack\Validation\Parameter\NotNullOrEmpty;
 class Request
 {
     
@@ -17,7 +17,7 @@ class Request
 
     /**
      * 
-     * @var \Fibo\Router\Validation\ParameterValidator[]
+     * @var \Pyrite\Stack\Validation\ParameterValidator[]
      */
     private $validators = array();
     

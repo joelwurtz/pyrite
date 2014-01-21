@@ -1,6 +1,6 @@
 <?php
 
-namespace Fibo\Router\Layout;
+namespace Pyrite\Stack\Layout;
 
 class Selector 
 {
