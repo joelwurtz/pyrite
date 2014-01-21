@@ -33,7 +33,7 @@ $app = new Fibo\Router\Application($silex, $container, $yaml);
 $app->setRouteFile($routes);
 $app->run();
 
-`̀``
+```
 
 Additionally, you need a YAML route file :
 
@@ -60,5 +60,5 @@ routes:
             html:
                 before-run: [ preRunMethod ]
                 view: app/Modules/Home/views/home.phtml
-``̀
+```
 
