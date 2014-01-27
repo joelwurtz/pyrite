@@ -1,0 +1,69 @@
+default-layout: index
+
+layouts:
+    index:
+        template: app/Sidonie/views/layouts/index.phtml
+        stylesheets:
+            - [ "//fonts.googleapis.com/css?family=Montserrat:400,700", css, screen ]
+            - [ "style/style.css", css, screen ]
+        scripts:
+            head:
+                - '/js/jquery.js'
+            bottom: []
+
+routes:
+    home-get:
+        route:
+            pattern: "/"
+            methods: [ get ]
+        dispatch:
+            Stack\Pyrite\Router\Plugin\Dispatch\Controller : HomeGetController
+        output:
+            html:
+                before-run: [ preRunMethod ]
+                view: app/Sidonie/views/scripts/home/get.phtml
+    home-get2:
+        route:
+            pattern: "/home"
+            methods: [ get ]
+        dispatch:
+            Stack\Pyrite\Router\Plugin\Dispatch\ACL : true
+            Stack\Pyrite\Router\Plugin\Dispatch\TTL : "!is_in_cache"
+            Stack\Pyrite\Router\Plugin\Dispatch\Controller : HomeGetController
+        output:
+            Stack\Pyrite\Router\Plugin\Output\View\HTML :
+                success: app/Sidonie/views/scripts/home/get2-success.phtml
+                failure: app/Sidonie/views/scripts/home/get2-failure.phtml
+    home-post:
+        route:
+            pattern: "/"
+            methods: [ post ]
+        dispatch:
+            controller: HomePostController
+            plugins: []
+        output:
+            html:
+                before-run: [ preRunMethod ]
+                view: app/Sidonie/views/scripts/home/post.phtml
+    home-put:
+        route:
+            pattern: "/"
+            methods: [ put ]
+        dispatch:
+            controller: HomePutController
+            plugins : []
+        output:
+            html:
+                before-run: [ preRunMethod ]
+                view: app/Sidonie/views/scripts/home/put.phtml
+    home-delete:
+        route:
+            pattern: "/"
+            methods: [ delete ]
+        dispatch:
+            controller: HomeDeleteController
+            plugins: []
+        output:
+            html:
+                before-run: [ preRunMethod ]
+                view: app/Sidonie/views/scripts/home/delete.phtml

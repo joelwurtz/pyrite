@@ -1,0 +1,11 @@
+parameters :
+    db :
+        adapter : PDO_PGSQL
+        params :
+            host : localhost
+            port : 5432
+            username : postgres
+            password : postgres
+            dbname : evaneos
+    application :
+        debug : true

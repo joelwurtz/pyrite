@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+    <head>
+        <title>Hello World</title>
+        <?= $this->renderStylesheets() ?>
+        <?= $this->renderJavascripts('head') ?>
+    </head>
+
+    <body>
+        <?= $this->renderJavascripts('top') ?>
+        <?= $this->view ?>
+        <?= $this->renderJavascripts('bottom') ?>
+    </body>
+</html>

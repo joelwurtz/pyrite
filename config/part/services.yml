@@ -1,0 +1,3 @@
+classes:
+    ServiceBill:
+        class : Berthe_Service_Bill

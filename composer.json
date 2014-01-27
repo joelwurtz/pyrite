@@ -1,28 +1,20 @@
 {
-	"name" : "pyrite/pyrite",
-	"description" : "PHP Initializer for Silex",
-	"version" : "1.0.0",
-	"type" : "library",
-	"homepage" : "http://pyri.te",
-	"time" : "2013-11-01",
-	"license" : "MIT",
-	"authors" : [{
-			"name" : "Thibaud Fabre",
-			"email" : "thibaud@evaneos.com",
-			"homepage" : "http://screwme.imfamo.us",
-			"role" : "Developer"
-		}
-	],
-	"autoload" : {
-		"psr-4" : {
-			"Pyrite\\Stack\\" : "src/"
-		}
-	},
-	"require" : {
-		"ezyang/htmlpurifier" : "4.6.0",
-		"oliviermadre/dic-it" : "dev-master",
-		"silex/silex" : "1.1.2",
-		"psr/log" : "1.0.0"
-	},
-	"minimum-stability" : "dev"
+    "minimum-stability" : "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/thibaud-evaneos/pyrite"
+        }
+    ],
+    "require": {
+        "pyrite/pyrite": "dev-master",
+        "stack/builder" : "1.0.1",
+        "stack/run" : "1.0.1"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Stack\\Pyrite\\" : "app/Stack/Pyrite/",
+            "Sidonie\\" : "app/Sidonie/"
+        }
+    }
 }

@@ -1,0 +1,4 @@
+include :
+    - part/parameters.yml
+    - part/controllers.yml
+    - part/services.yml

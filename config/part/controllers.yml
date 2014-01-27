@@ -1,0 +1,13 @@
+classes:
+    HomeGetController:
+        class: \Sidonie\Controllers\Home\Get
+        interceptor : [ ]
+    HomePostController:
+        class: \Sidonie\Controllers\Home\Post
+        interceptor : [ ]
+    HomePutController:
+        class: \Sidonie\Controllers\Home\Put
+        interceptor : [ ]
+    HomeDeleteController:
+        class: \Sidonie\Controllers\Home\Delete
+        interceptor : [ ]
